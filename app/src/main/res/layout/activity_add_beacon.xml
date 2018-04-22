@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.micka.playgroundprojectv2.Activities.AddBeaconActivity">
+
+    <TextView
+        android:id="@+id/tv_new_beacon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#2b2b2b"
+        android:text="НОВИЙ БРАСЛЕТ"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="99dp"
+        />
+    <ImageView
+        android:id="@+id/iv_new_ava"
+        android:layout_below="@+id/tv_new_beacon"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ava"
+        android:paddingTop="30dp"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/tv_add_new_ava"
+        android:paddingTop="10dp"
+        android:layout_below="@id/iv_new_ava"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#ffa58f"
+        android:text="Додати фото"
+        />
+
+    <LinearLayout
+
+        android:layout_below="@id/tv_add_new_ava"
+        android:id="@+id/ll_new_beacon"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_new_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#9a9a9a"
+            android:text="Ім’я:"
+            android:paddingLeft="29dp"
+            />
+        <EditText
+            android:id="@+id/et_new_beacon_name"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:textColor="#f4dcd6"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btn_add_new_beacon_inf"
+        android:layout_width="217dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/ll_new_beacon"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="30dp"
+        android:src="@drawable/btncontinue"
+        />
+
+</RelativeLayout>

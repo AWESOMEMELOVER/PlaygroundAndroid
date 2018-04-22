@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:padding="50dp"
+    tools:context="com.example.micka.playgroundprojectv2.Activities.RegisterActivity">
+
+
+    <TextView
+        android:id="@+id/tv_reg_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#2b2b2b"
+        android:text="РЕЄСТРАЦІЯ"
+        android:layout_centerHorizontal="true"
+
+        />
+
+    <EditText
+        android:id="@+id/et_user_name"
+        android:paddingTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:hint="Ім'я"
+        />
+    <EditText
+        android:hint="Прізвище"
+        android:id="@+id/et_user_lastname"
+        android:paddingTop="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content" />
+    
+    <LinearLayout
+        android:id="@+id/ll_sex_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/et_user_lastname">
+        
+        <ImageView
+            android:src="@drawable/man_active"
+            android:paddingTop="22dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp" />
+
+        <ImageView
+            android:src="@drawable/woman"
+            android:paddingTop="22dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp" />
+        
+    </LinearLayout>
+    <LinearLayout
+        android:paddingTop="20dp"
+        android:id="@+id/ll_birthday_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/ll_sex_holder">
+        
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/cake"
+            android:layout_gravity="center"/>
+        <TextView
+            android:paddingTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#5d5d5d"
+            android:text="Дата народження"
+            android:layout_gravity="center"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_birthday_number_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <EditText
+            android:id="@+id/et_birthday_day_holder"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:hint="19"/>
+            <EditText
+                android:id="@+id/et_birthday_month_holder"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:hint="11"/>
+            <EditText
+                android:id="@+id/et_birthday_year_holder"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="2011"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:paddingTop="10dp"
+
+        android:src="@drawable/btncontinue"
+        android:layout_below="@id/ll_birthday_holder"
+        android:id="@+id/btn_registration"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

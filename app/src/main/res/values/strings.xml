@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PlaygroundProjectV2</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_beacon">Beacon</string>
+    <string name="title_tracking">Tracking</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+</resources>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.micka.playgroundprojectv2.Activities.ZoneActivity">
+
+
+    <TextView
+        android:id="@+id/tv_safety_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#2b2b2b"
+        android:text="Оберіть безпечну зону:"
+        android:layout_centerHorizontal="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_type_holder"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/tv_safety_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <LinearLayout
+            android:id="@+id/ll_a_holder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#f7f7f7"
+            >
+       <ImageView
+           android:id="@+id/iv_btn_a"
+           android:layout_gravity="center"
+           android:layout_width="40dp"
+
+           android:layout_height="40dp"
+           android:background="@drawable/a"/>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/ll_b_holder"
+            android:layout_width="50dp"
+            android:background="#f7f7f7"
+            android:layout_height="50dp"
+            android:layout_margin="20dp">
+            
+            <ImageView
+                android:id="@+id/iv_btn_b"
+                android:src="@drawable/b"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_c_holder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#f7f7f7"
+            android:layout_margin="20dp">
+
+            <ImageView
+                android:id="@+id/iv_btn_c"
+                android:src="@drawable/c"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_map"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/map"
+        android:layout_below="@id/ll_type_holder"
+        android:layout_width="299.4dp"
+        android:layout_height="299.4dp" />
+
+    <ImageView
+        android:id="@+id/btn_add_new_zone"
+        android:layout_below="@id/iv_map"
+        android:src="@drawable/start"
+        android:layout_width="147dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"/>
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar_zones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="328dp"
+        android:background="#f7f7f7"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_playground_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#ffa58f"
+            android:text="ЖК «Львівський квартал»"
+            />
+        <TextView
+            android:id="@+id/tv_playground_street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#ffa58f"
+            android:text="вул. Електриків 26"
+            />
+
+    </LinearLayout>
+    
+</RelativeLayout>
