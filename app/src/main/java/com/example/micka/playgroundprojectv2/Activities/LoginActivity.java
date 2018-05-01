@@ -12,16 +12,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.ExceptionHandler;
 import com.example.micka.playgroundprojectv2.Utils.StringUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(mTelephoneLogin.getText().toString()!=null){
                     telephoneNumber = mTelephoneLogin.getText().toString();
+                    HashMap<String, String> data = new HashMap<>();
+                    data.put("phoneNumber",telephoneNumber);
                     sendTelephoneNumber();
                 }
             }
@@ -90,8 +98,40 @@ public class LoginActivity extends AppCompatActivity {
                 return params;
             }
         };
-
         queue.add(stringRequest);
     }
 
+ /*  private void sendTelephoneNumber(HashMap data){
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, LOGIN_URL, new JSONObject(data), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("Responce is: ", response.toString());
+                Log.i("TELEPHONE NUM: ", telephoneNumber);
+                if (response != null) {
+                  // if (!response.has("error")) {
+                        try {
+                            //if(response.getString("error") == new Exception())
+                            Intent intent = new Intent(getApplicationContext(), ComfirmSMSActivity.class);
+                            intent.putExtra("userId", response.getString("id"));
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    *//*else{
+                        Toast.makeText(getApplicationContext(),"Empty telephone field",Toast.LENGTH_LONG);
+                    }*//*
+                }
+           // }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley error: ",error.toString());
+            }
+
+        });
+        queue.add(request);
+    }
+*/
 }

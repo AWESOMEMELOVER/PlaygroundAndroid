@@ -43,18 +43,17 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="#5d5d5d"
-                android:text="Безпечна зона:"
+                android:text="Назва майданчика:"
                 android:layout_below="@id/tv_tracking_beacon_name"
                 android:layout_marginTop="10dp"
                 />
 
             <TextView
-                android:id="@+id/tv_type_of_zone"
+                android:id="@+id/tv_playground_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="#5d5d5d"
-                android:text="B"
                 android:layout_below="@id/tv_safety_zone"
                 />
             

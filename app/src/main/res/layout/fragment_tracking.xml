@@ -7,10 +7,12 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:text="test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_tracking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
     
    <ImageView
        android:id="@+id/btn_add_new_tracking"

@@ -31,7 +31,6 @@
         <activity android:name=".Activities.QRCodeActivity" />
         <activity android:name=".Activities.AddBeaconActivity" />
         <activity android:name=".Activities.EditBeaconActivity" />
-        <activity android:name=".Activities.UploadActivity"></activity>
     </application>
 
 </manifest>
