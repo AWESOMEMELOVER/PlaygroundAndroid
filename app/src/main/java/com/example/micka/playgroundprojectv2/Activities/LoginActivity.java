@@ -1,6 +1,7 @@
 package com.example.micka.playgroundprojectv2.Activities;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.micka.playgroundprojectv2.R;
 import com.example.micka.playgroundprojectv2.Utils.ExceptionHandler;
 import com.example.micka.playgroundprojectv2.Utils.StringUtils;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,10 +41,11 @@ public class LoginActivity extends AppCompatActivity {
 
     ImageView mButtonLogin;
     EditText mTelephoneLogin;
-    final String LOGIN_URL = "http://unix.trosha.dev.lumination.com.ua/login";
+    final String LOGIN_URL =URLS.LOGIN_URL;
     String telephoneNumber;
     RequestQueue queue;
     TextView link_signup;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +59,13 @@ public class LoginActivity extends AppCompatActivity {
         mTelephoneLogin = (EditText) findViewById(R.id.et_phone_number);
         link_signup = (TextView)findViewById(R.id.link_signup);
 
+        mContext = getApplicationContext();
+
         link_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                overridePendingTransition( R.animator.slide_in_up, R.animator.slide_out_up );
             }
         });
 
@@ -78,11 +87,19 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                JsonObject jsonObject = (new JsonParser()).parse(response).getAsJsonObject();
+
                 Log.i("Responce is: ",response.toString());
                 if(response!=null){
-                    Intent intent = new Intent(getApplicationContext(),ComfirmSMSActivity.class);
-                    intent.putExtra("userId", StringUtils.getStringValue(response));
-                    startActivity(intent);
+                    if(jsonObject.has("error")){
+                        Toast.makeText(mContext,jsonObject.get("error").toString(),Toast.LENGTH_LONG).show();
+                    }else {
+                        Intent intent = new Intent(getApplicationContext(), ComfirmSMSActivity.class);
+                        intent.putExtra("userId", StringUtils.getStringValue(response));
+                        startActivity(intent);
+                        overridePendingTransition(R.animator.slide_in_up, R.animator.slide_out_up);
+                    }
                 }
             }
         }, new Response.ErrorListener() {

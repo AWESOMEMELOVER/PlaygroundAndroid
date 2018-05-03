@@ -20,13 +20,14 @@ import com.android.volley.toolbox.Volley;
 import com.example.micka.playgroundprojectv2.Models.GlobalUser;
 import com.example.micka.playgroundprojectv2.R;
 import com.example.micka.playgroundprojectv2.Utils.StringUtils;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    final String REGISTRY_URL = "http://unix.trosha.dev.lumination.com.ua/user";
+    final String REGISTRY_URL = URLS.REGISTRY_URL;
     EditText mUserName, mUserLastname, mUserBirthDay, mUserBirthMonth, mUserBirthYear;
     String username, userlastname, userDay, userMonth, userYear,userFullBirth;
     ImageView mRegistry;

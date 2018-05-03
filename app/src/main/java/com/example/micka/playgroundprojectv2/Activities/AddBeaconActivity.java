@@ -1,6 +1,7 @@
 package com.example.micka.playgroundprojectv2.Activities;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
 
 import java.lang.reflect.Method;
@@ -25,8 +28,8 @@ public class AddBeaconActivity extends AppCompatActivity {
     private EditText mNewBeaconName;
     private ImageView mBtnConfirm;
     private String beaconId,beaconName;
-    String URL = "http://unix.trosha.dev.lumination.com.ua/user/";
-    String URL2 = "/beacon/";
+    private String SAVE_BEACON_URL;
+    private String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,9 @@ public class AddBeaconActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         beaconId = intent.getStringExtra("qrCodeValue");
+
+        userId = SharedPrefUser.getInstance(getApplicationContext()).getUserId();
+        SAVE_BEACON_URL = URLS.getBeaconsByIdURL(userId);
 
         mNewBeaconName = (EditText) findViewById(R.id.et_new_beacon_name);
         mBtnConfirm = (ImageView) findViewById(R.id.btn_add_new_beacon_inf);
@@ -51,11 +57,17 @@ public class AddBeaconActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        Log.i("BEACON QR CODE : ",beaconId+" is beaconID");
+    }
 
     private void saveNewBeacon(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL + 1 + URL2, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SAVE_BEACON_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.i("onResponse: ",beaconId);
                 Log.i("Responce: ",response);
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);

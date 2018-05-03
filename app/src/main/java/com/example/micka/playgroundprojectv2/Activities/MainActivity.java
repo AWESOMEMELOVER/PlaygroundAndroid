@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.example.micka.playgroundprojectv2.Fragments.TrackingFragment;
 import com.example.micka.playgroundprojectv2.Models.GlobalUser;
 import com.example.micka.playgroundprojectv2.Models.Zone;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,14 +45,16 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
-        id = intent.getStringExtra("userId");
+       /* Intent intent = getIntent();
+        id = intent.getStringExtra("userId");*/
 
         addNewBeacon = (ImageView) findViewById(R.id.btn_add_new_beacon);
 
         switchFragment(new BeaconFragment());
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        id = SharedPrefUser.getInstance(getApplicationContext()).getUserId();
+        Log.wtf("USER ID FROM SHAREDPREF: ",id);
 
         new MainTask().execute("http://unix.trosha.dev.lumination.com.ua/user/"+id);
 
@@ -90,6 +94,7 @@ public class MainActivity extends FragmentActivity {
     private void switchFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left,R.animator.slide_in_right);
         fragmentTransaction.replace(R.id.fragment_replaceble_container,fragment);
         fragmentTransaction.commit();
 

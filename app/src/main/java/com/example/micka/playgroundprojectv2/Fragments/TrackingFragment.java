@@ -24,6 +24,8 @@ import com.example.micka.playgroundprojectv2.Activities.PlaygroundActivity;
 import com.example.micka.playgroundprojectv2.Adapters.TrackingAdapter;
 import com.example.micka.playgroundprojectv2.Models.Tracking;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -38,16 +40,17 @@ import java.util.ArrayList;
 public class TrackingFragment extends Fragment {
 
     private ImageView mAddTracking;
-    final String URL = "http://unix.trosha.dev.lumination.com.ua/user/1/tracking";
+    private String CREATE_TRACKING_URL;
     private RecyclerView recyclerView;
     private TrackingAdapter trackingAdapter;
     private ArrayList<Tracking> trackings = new ArrayList<>();
-
+    private String userId;
+    private String GET_TRACKINGS;
     public TrackingFragment() {
         // Required empty public constructor
     }
 
-    private String GET_TRACKINGS = "http://unix.trosha.dev.lumination.com.ua/tracking/1";
+
 
 
     @Override
@@ -60,6 +63,10 @@ public class TrackingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        userId = SharedPrefUser.getInstance(getContext()).getUserId();
+        CREATE_TRACKING_URL = URLS.createTrackingByUserId(userId);
+        GET_TRACKINGS = URLS.getTrackingsByUserID(userId);
+        Log.i("TRACKING URL: ",GET_TRACKINGS);
         View view = inflater.inflate(R.layout.fragment_tracking, container, false);
         return view;
     }
@@ -82,7 +89,7 @@ public class TrackingFragment extends Fragment {
     }
 
     private void sendData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, CREATE_TRACKING_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

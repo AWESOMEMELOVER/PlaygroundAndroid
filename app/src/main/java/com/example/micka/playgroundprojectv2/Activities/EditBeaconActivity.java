@@ -23,7 +23,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.micka.playgroundprojectv2.Models.Beacon;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -46,9 +50,9 @@ public class EditBeaconActivity extends AppCompatActivity {
     private CircleImageView mAva;
     private ImageView mBtnEdit;
     private TextView choosePhoto;
-    String URL = "http://unix.trosha.dev.lumination.com.ua/user/";
-    String URL2 = "/beacon/";
-    String FILE_UPLOAD_URL =    "http://unix.trosha.dev.lumination.com.ua/uploads";
+    private String userId;
+
+    String FILE_UPLOAD_URL =URLS.UPLOAD_URL;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
 
@@ -63,6 +67,7 @@ public class EditBeaconActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("beaconName");
         beaconId = intent.getStringExtra("beaconId");
+        userId = SharedPrefUser.getInstance(getApplicationContext()).getUserId();
 
         Beacon beacon = new Beacon();
         //beacon.setBeaconId(beaconId);
@@ -78,8 +83,8 @@ public class EditBeaconActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String newBeaconname = mBeaconName.getText().toString();
-                File newAva = new File(imageUri.getPath());
-                sendData(newBeaconname,newAva);
+                //File newAva = new File(imageUri.getPath());
+                sendData(newBeaconname);
             }
         });
 
@@ -94,11 +99,17 @@ public class EditBeaconActivity extends AppCompatActivity {
 
     }
 
-        private void sendData(final String name,final File newAva){
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL + 1 + URL2+beaconId, new Response.Listener<String>() {
+        private void sendData(final String name){
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.editBeaconByUserId(userId,beaconId), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    JsonObject jsonObject = (new JsonParser()).parse(response).getAsJsonObject();
+                    if(!jsonObject.has("error")){
+                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
+                    }
                     Log.i("Responce TAG: ",response);
+
                 }
             }, new Response.ErrorListener() {
                 @Override

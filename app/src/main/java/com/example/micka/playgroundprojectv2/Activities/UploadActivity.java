@@ -24,15 +24,12 @@ import android.widget.Toast;
 
 import com.example.micka.playgroundprojectv2.*;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class UploadActivity extends AppCompatActivity {
 
@@ -80,16 +77,7 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-        upload_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (imagepath != null) {
-                    new com.example.micka.playgroundprojectv2.Activities.UploadActivity.UploadFileToServer().execute();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Please select a file to upload.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        upload_button.setOnClickListener(e->uploadMultipart());
 
     }
 
@@ -137,104 +125,20 @@ public class UploadActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+    public void uploadMultipart(){
+        try {
+            new MultipartUploadRequest(this, null,URLS.UPLOAD_URL)
+                    .addFileToUpload(imagepath,"file")
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .setMaxRetries(2)
+                    .startUpload();
 
-
-
-    private class UploadFileToServer extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            // setting progress bar to zero
-            donut_progress.setProgress(0);
-            uploader_area.setVisibility(View.GONE); // Making the uploader area screen invisible
-            progress_area.setVisibility(View.VISIBLE); // Showing the stylish material progressbar
-            sourceFile = new File(imagepath);
-            totalSize = (int)sourceFile.length();
-            super.onPreExecute();
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-        @Override
-        protected void onProgressUpdate(String... progress) {
-            Log.d("PROG", progress[0]);
-            donut_progress.setProgress(Integer.parseInt(progress[0])); //Updating progress
-        }
-
-        @Override
-        protected String doInBackground(String... args) {
-            HttpURLConnection.setFollowRedirects(false);
-            HttpURLConnection connection = null;
-            String fileName = sourceFile.getName();
-
-            try {
-                connection = (HttpURLConnection) new URL(FILE_UPLOAD_URL).openConnection();
-                connection.setRequestMethod("POST");
-                String boundary = "---------------------------boundary";
-                String tail = "\r\n--" + boundary + "--\r\n";
-                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-                connection.setDoOutput(true);
-
-                String metadataPart = "--" + boundary + "\r\n"
-                        + "Content-Disposition: form-data; name=\"metadata\"\r\n\r\n"
-                        + "" + "\r\n";
-
-                String fileHeader1 = "--" + boundary + "\r\n"
-                        + "Content-Disposition: form-data; file=\""
-                        + fileName + "\"\r\n"
-                        + "Content-Type: application/octet-stream\r\n"
-                        + "Content-Transfer-Encoding: binary\r\n";
-
-                long fileLength = sourceFile.length() + tail.length();
-                String fileHeader2 = "Content-length: " + fileLength + "\r\n";
-                String fileHeader = fileHeader1 + fileHeader2 + "\r\n";
-                String stringData = metadataPart + fileHeader;
-
-                long requestLength = stringData.length() + fileLength;
-                connection.setRequestProperty("Content-length", "" + requestLength);
-                connection.setFixedLengthStreamingMode((int) requestLength);
-                connection.connect();
-
-                DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-                out.writeBytes(stringData);
-                out.flush();
-
-                int progress = 0;
-                int bytesRead = 0;
-                byte buf[] = new byte[1024];
-                BufferedInputStream bufInput = new BufferedInputStream(new FileInputStream(sourceFile));
-                while ((bytesRead = bufInput.read(buf)) != -1) {
-                    // write output
-                    out.write(buf, 0, bytesRead);
-                    out.flush();
-                    progress += bytesRead; // Here progress is total uploaded bytes
-
-                    publishProgress(""+(int)((progress*100)/totalSize)); // sending progress percent to publishProgress
-                }
-
-                // Write closing boundary and close stream
-                out.writeBytes(tail);
-                out.flush();
-                out.close();
-
-                // Get server response
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuilder builder = new StringBuilder();
-                while((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-
-            } catch (Exception e) {
-                // Exception
-            } finally {
-                if (connection != null) connection.disconnect();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("Response", "Response from server: " + result);
-            super.onPostExecute(result);
-        }
-
     }
+
+
+
+
 }

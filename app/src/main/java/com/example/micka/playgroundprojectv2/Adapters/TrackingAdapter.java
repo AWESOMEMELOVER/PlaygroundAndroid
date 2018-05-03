@@ -58,7 +58,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.Tracki
         public TrackingViewHolder(View itemView){
             super(itemView);
             this.mName = (TextView) itemView.findViewById(R.id.tv_tracking_beacon_name);
-            this.mPlaygroundName = (TextView) itemView.findViewById(R.id.tv_playground_name);
+            this.mPlaygroundName = (TextView) itemView.findViewById(R.id.tv_playground_name_test);
         }
     }
 }

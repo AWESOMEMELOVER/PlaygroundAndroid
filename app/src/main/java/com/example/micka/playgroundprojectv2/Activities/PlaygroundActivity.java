@@ -186,13 +186,18 @@ public class PlaygroundActivity extends AppCompatActivity {
                 Log.i("Responce is: ",response.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    String id = jsonObject.getString("id");
-                    Intent intent = new Intent(getApplicationContext(),ZoneActivity.class);
-                    intent.putExtra("id",id);
-                    startActivity(intent);
+                    if(!jsonObject.has("error")) {
+                        String id = jsonObject.getString("id");
+                        Intent intent = new Intent(getApplicationContext(), ZoneActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Already tracking",Toast.LENGTH_LONG).show();
+                    }
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override

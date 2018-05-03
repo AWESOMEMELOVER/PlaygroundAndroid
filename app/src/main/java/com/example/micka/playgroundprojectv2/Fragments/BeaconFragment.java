@@ -26,6 +26,8 @@ import com.example.micka.playgroundprojectv2.Interfaces.BeaconOnItemClickListene
 import com.example.micka.playgroundprojectv2.Models.Beacon;
 import com.example.micka.playgroundprojectv2.Models.GlobalUser;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -53,7 +55,7 @@ public class  BeaconFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
+        userId = SharedPrefUser.getInstance(getContext()).getUserId();
         View view = inflater.inflate(R.layout.fragment_beacon,container,false);
         return view;
     }
@@ -77,6 +79,7 @@ public class  BeaconFragment extends Fragment {
                 intent.putExtra("beaconId",String.valueOf(item.getId()));
                 intent.putExtra("beaconName",item.getName());
                 startActivity(intent);
+
             }
         });
     }
@@ -93,8 +96,8 @@ public class  BeaconFragment extends Fragment {
     }
 
     private void getBeaconsArrayList(){
-        userId = ((GlobalUser) getActivity().getApplication()).getUserId();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "http://unix.trosha.dev.lumination.com.ua/user/1/beacon", null, new Response.Listener<JSONObject>() {
+       // userId = ((GlobalUser) getActivity().getApplication()).getUserId();
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLS.getBeaconsByIdURL("1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -104,14 +107,17 @@ public class  BeaconFragment extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("data");
                     for(int i =0; i<jsonArray.length();i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Beacon beacon = new Beacon();
-                        beacon.setId(object.getString("beaconId"));
-                        beacon.setName(object.getString("name"));
+                        if(object.getString("userId").equals(userId)) {
+                            Beacon beacon = new Beacon();
+                            beacon.setId(object.getString("id"));
+                            beacon.setName(object.getString("name"));
 
-                        beacon.setImgUrl(object.getString("imageUrl"));
-                        Log.e("BEACON TAG:",beacon.getId());
-                        beaconArrayList.add(beacon);
-                        beaconAdapter.notifyDataSetChanged();
+                            beacon.setImgUrl(object.getString("imageUrl"));
+                            Log.e("BEACON TAG:", beacon.getId());
+
+                            beaconArrayList.add(beacon);
+                            beaconAdapter.notifyDataSetChanged();
+                        }
                     }
                 }catch (JSONException e){
                     e.printStackTrace();

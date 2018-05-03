@@ -15,19 +15,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.LoginActivity">
+
+        </activity>
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity"></activity>
         <activity android:name=".Activities.ComfirmSMSActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.PlaygroundActivity" />
-        <activity android:name=".Activities.ZoneActivity" />
-        <activity android:name=".Activities.BeaconToTrackingActivity"></activity>
-        <activity android:name=".Activities.UploadActivity"></activity>
+        <activity android:name=".Activities.ZoneActivity" >
+
+        </activity>
+        <activity android:name=".Activities.BeaconToTrackingActivity">
+
+        </activity>
+        <activity android:name=".Activities.UploadActivity">
+
+        </activity>
         <activity android:name=".Activities.QRCodeActivity" />
         <activity android:name=".Activities.AddBeaconActivity" />
         <activity android:name=".Activities.EditBeaconActivity" />

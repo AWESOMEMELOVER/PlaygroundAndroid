@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -117,6 +118,7 @@ public class QRCodeActivity extends AppCompatActivity {
                             vibrator.vibrate(50);
                             qrCodeValue = qrcodes.valueAt(0).rawValue;
                             txtResult.setText(qrcodes.valueAt(0).displayValue);
+                            Log.i("BEACON QR CODE : ",qrCodeValue);
                         }
                     });
 
