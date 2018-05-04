@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -45,7 +46,7 @@ public class TrackingFragment extends Fragment {
     private TrackingAdapter trackingAdapter;
     private ArrayList<Tracking> trackings = new ArrayList<>();
     private String userId;
-    private String GET_TRACKINGS;
+    private static String GET_TRACKINGS;
     public TrackingFragment() {
         // Required empty public constructor
     }
@@ -56,6 +57,8 @@ public class TrackingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        Log.i("TRACKING URL: ",GET_TRACKINGS+" is tracking url");
         getTracking();
     }
 
@@ -66,7 +69,6 @@ public class TrackingFragment extends Fragment {
         userId = SharedPrefUser.getInstance(getContext()).getUserId();
         CREATE_TRACKING_URL = URLS.createTrackingByUserId(userId);
         GET_TRACKINGS = URLS.getTrackingsByUserID(userId);
-        Log.i("TRACKING URL: ",GET_TRACKINGS);
         View view = inflater.inflate(R.layout.fragment_tracking, container, false);
         return view;
     }
@@ -82,7 +84,8 @@ public class TrackingFragment extends Fragment {
         recyclerView.setAdapter(trackingAdapter);
         mAddTracking.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 sendData();
             }
         });

@@ -178,6 +178,13 @@ public class PlaygroundActivity extends AppCompatActivity {
 
     }
 
+    /*TODO
+    * http://unix.trosha.dev.lumination.com.ua/tracking/1/to/playground
+    * trackingid in url
+    * playgroundid in post body
+    *
+    * */
+
     private void sendData(Playground playground){
         final String id = playground.getId();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, trackUrl + id + secUrl, new Response.Listener<String>() {

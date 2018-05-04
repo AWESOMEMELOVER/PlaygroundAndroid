@@ -26,8 +26,6 @@ import com.example.micka.playgroundprojectv2.*;
 import com.example.micka.playgroundprojectv2.R;
 import com.example.micka.playgroundprojectv2.Utils.URLS;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
 
 import java.io.File;
 
@@ -127,11 +125,11 @@ public class UploadActivity extends AppCompatActivity {
 
     public void uploadMultipart(){
         try {
-            new MultipartUploadRequest(this, null,URLS.UPLOAD_URL)
+          /*  new MultipartUploadRequest(this, null,URLS.UPLOAD_URL)
                     .addFileToUpload(imagepath,"file")
                     .setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
-                    .startUpload();
+                    .startUpload();*/
 
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
