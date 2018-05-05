@@ -1,5 +1,6 @@
 package com.example.micka.playgroundprojectv2.Activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import com.example.micka.playgroundprojectv2.Interfaces.BeaconOnItemClickListene
 import com.example.micka.playgroundprojectv2.Models.Beacon;
 import com.example.micka.playgroundprojectv2.Models.Zone;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
+import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -53,16 +56,18 @@ public class BeaconToTrackingActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.rv_beacons_to_tracking);
         progressBar = (ProgressBar)findViewById(R.id.progress_bar_tracking_beacon);
         gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
-        new BeaconTask().execute("http://unix.trosha.dev.lumination.com.ua/user/1/beacon/");
+        new BeaconTask().execute(URLS.getBeaconsByIdURL(SharedPrefUser.getInstance(getApplicationContext()).getUserId()));
 
     }
 
 
     private void sendData(final Beacon beacon){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://unix.trosha.dev.lumination.com.ua/tracking/1/to/beacon", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.addBeaconToTracking(SharedPrefUser.getInstance(getApplicationContext()).getTrackingId()), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("ResponceTag: ",response);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override

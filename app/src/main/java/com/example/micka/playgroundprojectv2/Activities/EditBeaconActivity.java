@@ -50,7 +50,7 @@ public class EditBeaconActivity extends AppCompatActivity {
     private CircleImageView mAva;
     private ImageView mBtnEdit;
     private TextView choosePhoto;
-    private String userId;
+    private String userId,imageUrl;
 
     String FILE_UPLOAD_URL =URLS.UPLOAD_URL;
     private static final int PICK_IMAGE = 100;
@@ -64,9 +64,13 @@ public class EditBeaconActivity extends AppCompatActivity {
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra("beaconName");
-        beaconId = intent.getStringExtra("beaconId");
+       Bundle bundle = getIntent().getExtras();
+       if(bundle.getString("classFrom")!=null){
+           imageUrl = bundle.getString("imageUrl");
+       }else {
+        name = bundle.getString("beaconName");
+        beaconId = bundle.getString("beaconId");
+       }
         userId = SharedPrefUser.getInstance(getApplicationContext()).getUserId();
 
         Beacon beacon = new Beacon();
@@ -122,6 +126,7 @@ public class EditBeaconActivity extends AppCompatActivity {
                     HashMap<String,String> params = new HashMap<>();
                     params.put("name",name);
                     params.put("beaconId",beaconId);
+                    params.put("imageUrl","uploads"+"\\"+"0_1525550688_S80505-214841.jpg");
                     return params;
                 }
             };

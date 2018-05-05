@@ -187,7 +187,7 @@ public class PlaygroundActivity extends AppCompatActivity {
 
     private void sendData(Playground playground){
         final String id = playground.getId();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, trackUrl + id + secUrl, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, trackUrl + trackingId + secUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("Responce is: ",response.toString());

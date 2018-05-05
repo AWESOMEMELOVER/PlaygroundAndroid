@@ -99,6 +99,8 @@ public class TrackingFragment extends Fragment {
                     String id = response.getString("id");
                     Intent intent = new Intent(getContext(), PlaygroundActivity.class);
                     intent.putExtra("trackingId", id);
+                    SharedPrefUser.getInstance(getContext()).saveNewTrackingId(id);
+                    Log.i("TRACKING ID: ",id+" is Tracking id");
                     startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();

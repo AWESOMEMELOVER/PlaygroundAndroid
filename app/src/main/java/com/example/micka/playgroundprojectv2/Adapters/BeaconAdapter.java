@@ -2,6 +2,7 @@ package com.example.micka.playgroundprojectv2.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.example.micka.playgroundprojectv2.Interfaces.BeaconOnItemClickListene
 import com.example.micka.playgroundprojectv2.Interfaces.OnItemClickListener;
 import com.example.micka.playgroundprojectv2.Models.Beacon;
 import com.example.micka.playgroundprojectv2.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,10 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconView
     public void onBindViewHolder(BeaconViewHolder holder, int position) {
         final Beacon beacon = beaconList.get(position);
         holder.nameHolder.setText(beacon.getName());
-
+        String imageForPiccassa = "http://unix.trosha.dev.lumination.com.ua/"+beacon.getImgUrl();
+        String actualUrl = imageForPiccassa.replace("\\", "/");
+        Picasso.with(mContext).load(actualUrl).into(holder.circleImageView);
+        Log.i("IMAGE FOR PICASSA: ",actualUrl);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +77,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconView
 
         protected CircleImageView circleImageView;
         protected TextView nameHolder;
+
 
         public BeaconViewHolder(View view){
             super(view);

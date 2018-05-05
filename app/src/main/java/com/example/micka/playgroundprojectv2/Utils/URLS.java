@@ -30,5 +30,8 @@ public class URLS {
     public static String confirmSmsByUserId(String id){
         return "http://unix.trosha.dev.lumination.com.ua/login/"+id;
     }
+    public static String addBeaconToTracking(String trackingId){
+        return "http://unix.trosha.dev.lumination.com.ua/tracking/"+trackingId+"/to/beacon";
+    }
 
 }

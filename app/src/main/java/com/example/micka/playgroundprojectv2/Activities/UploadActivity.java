@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +24,42 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.micka.playgroundprojectv2.*;
 import com.example.micka.playgroundprojectv2.R;
 import com.example.micka.playgroundprojectv2.Utils.URLS;
+import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
+import com.google.gson.JsonObject;
 
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UploadActivity extends AppCompatActivity {
 
@@ -35,11 +67,12 @@ public class UploadActivity extends AppCompatActivity {
     String imagepath;
     File sourceFile;
     int totalSize = 0;
-    String FILE_UPLOAD_URL = "http://unix.trosha.dev.lumination.com.ua/uploads/";
+    String FILE_UPLOAD_URL = "http://unix.trosha.dev.lumination.com.ua/upload";
     LinearLayout uploader_area;
     LinearLayout progress_area;
     public ProgressBar donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +93,7 @@ public class UploadActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(com.example.micka.playgroundprojectv2.Activities.UploadActivity.this,
                     new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_WRITE_STORAGE);
-        }else {
+        } else {
 
         }
 
@@ -75,7 +108,14 @@ public class UploadActivity extends AppCompatActivity {
         });
 
 
-        upload_button.setOnClickListener(e->uploadMultipart());
+        upload_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UploadFileAsync uploadAsync = new UploadFileAsync();
+                uploadAsync.execute();
+
+            }
+        });
 
     }
 
@@ -83,21 +123,17 @@ public class UploadActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //reload my activity with permission granted or use the features what required the permission
-                } else
-                {
+                } else {
                     Toast.makeText(com.example.micka.playgroundprojectv2.Activities.UploadActivity.this, "You must give access to storage.", Toast.LENGTH_LONG).show();
                 }
             }
         }
 
     }
-
 
 
     @Override
@@ -115,28 +151,54 @@ public class UploadActivity extends AppCompatActivity {
 
         }
     }
+
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
 
-    public void uploadMultipart(){
-        try {
-          /*  new MultipartUploadRequest(this, null,URLS.UPLOAD_URL)
-                    .addFileToUpload(imagepath,"file")
-                    .setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(2)
-                    .startUpload();*/
 
-        }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    private class UploadFileAsync extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                HttpClient client = new DefaultHttpClient();
+                HttpPost post = new HttpPost(FILE_UPLOAD_URL);
+
+                MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+                entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+                File file = new File(imagepath);
+                if (file != null) {
+                    Log.i("FILE: ",file.toString());
+                    entityBuilder.addBinaryBody("file", file);
+
+                    Log.i("FILE: ",entityBuilder.toString());
+                }
+
+                HttpEntity entity = entityBuilder.build();
+                post.setEntity(entity);
+                HttpResponse response = client.execute(post);
+                HttpEntity httpEntity = response.getEntity();
+
+                if(entity != null){
+                    String retSrc =  EntityUtils.toString(httpEntity);
+                    JSONObject result = new JSONObject(retSrc);
+                    Log.i("JSON RESPONCE : ",result.toString());
+                    Intent intent = new Intent(getApplicationContext(),EditBeaconActivity.class);
+                    intent.putExtra("classFrom",UploadActivity.class.toString());
+                    intent.putExtra("imageUrl",result.getString("file"));
+                    startActivity(intent);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
-
-
-
-
 }

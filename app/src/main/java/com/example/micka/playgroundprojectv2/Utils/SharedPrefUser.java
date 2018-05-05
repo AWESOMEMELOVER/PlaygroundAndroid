@@ -16,6 +16,7 @@ public class SharedPrefUser {
 
 
     private final String sPref_userId = "sPref_userId";
+    private final String sPref_trackingId= "sPref_trackingId";
 
     private SharedPrefUser(){}
 
@@ -35,4 +36,12 @@ public class SharedPrefUser {
         return sharedPreferences.getString(sPref_userId,null);
     }
 
+    public void saveNewTrackingId(String id){
+        editor.putString(sPref_trackingId,id);
+        editor.commit();
+    }
+
+    public String getTrackingId(){
+        return sharedPreferences.getString(sPref_trackingId,null);
+    }
 }
