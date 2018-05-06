@@ -66,11 +66,17 @@ public class LoginActivity extends AppCompatActivity {
         mTelephoneLogin = (EditText) findViewById(R.id.et_phone_number);
         link_signup = (TextView)findViewById(R.id.link_signup);
 
+        /*TODO
+        * SWITCH BROADCAST RECIEVER TO MAINACTIVITY
+        * POST IT TO user/id/gcm
+        *
+        * */
+
+
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 token = SharedPrefUser.getInstance(LoginActivity.this).getDiviceToken();
-                Log.wtf("DEVICE TOKEN: ",token);
             }
         };
 
