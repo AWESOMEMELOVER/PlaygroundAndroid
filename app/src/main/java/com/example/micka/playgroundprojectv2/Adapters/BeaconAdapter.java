@@ -12,6 +12,7 @@ import com.example.micka.playgroundprojectv2.Interfaces.BeaconOnItemClickListene
 import com.example.micka.playgroundprojectv2.Interfaces.OnItemClickListener;
 import com.example.micka.playgroundprojectv2.Models.Beacon;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.Config;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,10 +47,10 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconView
     public void onBindViewHolder(BeaconViewHolder holder, int position) {
         final Beacon beacon = beaconList.get(position);
         holder.nameHolder.setText(beacon.getName());
-        String imageForPiccassa = "http://unix.trosha.dev.lumination.com.ua/"+beacon.getImgUrl();
-        String actualUrl = imageForPiccassa.replace("\\", "/");
-        Picasso.with(mContext).load(actualUrl).into(holder.circleImageView);
-        Log.i("IMAGE FOR PICASSA: ",actualUrl);
+        holder.circleImageView.setImageResource(R.drawable.ava);
+        if(beacon.getImgUrl()!=null) {
+            Config.displayImage(mContext, beacon.getImgUrl(), holder.circleImageView);
+        }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -17,6 +17,7 @@ public class SharedPrefUser {
 
     private final String sPref_userId = "sPref_userId";
     private final String sPref_trackingId= "sPref_trackingId";
+    private final String sPref_beaconId= "sPref_beaconId";
 
     private SharedPrefUser(){}
 
@@ -43,5 +44,13 @@ public class SharedPrefUser {
 
     public String getTrackingId(){
         return sharedPreferences.getString(sPref_trackingId,null);
+    }
+
+    public void saveNewBeaconId(String id){
+        editor.putString(sPref_beaconId,id);
+        editor.commit();
+    }
+    public String getBeaconId(){
+        return sharedPreferences.getString(sPref_beaconId,null);
     }
 }

@@ -6,6 +6,12 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE"/>
+
+    
     <application
         android:name=".Models.GlobalUser"
         android:allowBackup="true"
@@ -15,18 +21,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.LoginActivity">
-
-        </activity>
-        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.MainActivity">
+
+        </activity>
         <activity android:name=".Activities.ComfirmSMSActivity" />
         <activity android:name=".Activities.RegisterActivity" />
-        <activity android:name=".Activities.PlaygroundActivity" />
+        <activity android:name=".Activities.PlaygroundActivity" >
+
+        </activity>
         <activity android:name=".Activities.ZoneActivity" >
 
         </activity>
@@ -39,6 +47,15 @@
         <activity android:name=".Activities.QRCodeActivity" />
         <activity android:name=".Activities.AddBeaconActivity" />
         <activity android:name=".Activities.EditBeaconActivity" />
+
+
+      <!--  <receiver android:name=".GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.example.gcm"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService"/>-->
     </application>
 
 </manifest>

@@ -7,16 +7,18 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
-       // multiDexEnabled true
+        versionName "1.1"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        useLibrary 'org.apache.http.legacy'
     }
     buildTypes {
         debug {
 
         }
     }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -32,24 +34,32 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+
+}
+
+configurations {
+    all {
+        exclude module: 'httpclient'
+        exclude module: 'commons-logging'
+    }
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.android.gms:play-services:3.1.+'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.volley:volley:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.1'
-   // implementation "org.apache.httpcomponents:httpmime:4.2.3"
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
     implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.3'
     implementation 'com.squareup.picasso:picasso:2.5.0'
+    implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     implementation 'net.gotev:uploadservice:2.1'
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.android.gms:play-services:11.4.0'

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.micka.playgroundprojectv2.Models.Beacon;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.Config;
 import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
 import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.example.micka.playgroundprojectv2.Utils.VolleySingleton;
@@ -50,7 +51,9 @@ public class EditBeaconActivity extends AppCompatActivity {
     private CircleImageView mAva;
     private ImageView mBtnEdit;
     private TextView choosePhoto;
-    private String userId,imageUrl;
+    private String userId;
+    String imageUrl;
+    String transferImageUrl;
 
     String FILE_UPLOAD_URL =URLS.UPLOAD_URL;
     private static final int PICK_IMAGE = 100;
@@ -65,11 +68,14 @@ public class EditBeaconActivity extends AppCompatActivity {
         actionBar.hide();
 
        Bundle bundle = getIntent().getExtras();
-       if(bundle.getString("classFrom")!=null){
+       if(bundle.getString("classFrom")!=null && bundle.getString("classFrom").equals(UploadActivity.class.toString())){
            imageUrl = bundle.getString("imageUrl");
+           beaconId = SharedPrefUser.getInstance(getApplicationContext()).getBeaconId();
+           Log.i("IMAGE URL: ",imageUrl+" IS IMAGE URL");
        }else {
         name = bundle.getString("beaconName");
         beaconId = bundle.getString("beaconId");
+        transferImageUrl = bundle.getString("imageUrl");
        }
         userId = SharedPrefUser.getInstance(getApplicationContext()).getUserId();
 
@@ -80,7 +86,7 @@ public class EditBeaconActivity extends AppCompatActivity {
         mBeaconName = (EditText) findViewById(R.id.et_edit_beacon_name);
         mBeaconName.setText(name);
         mBtnEdit = (ImageView) findViewById(R.id.btn_add_edit_beacon_inf);
-
+        Config.displayImage(getApplicationContext(),transferImageUrl,mAva);
         choosePhoto = (TextView) findViewById(R.id.tv_edit_new_ava);
 
         mBtnEdit.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +94,7 @@ public class EditBeaconActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String newBeaconname = mBeaconName.getText().toString();
                 //File newAva = new File(imageUri.getPath());
-                sendData(newBeaconname);
+                sendData(newBeaconname,imageUrl);
             }
         });
 
@@ -96,6 +102,7 @@ public class EditBeaconActivity extends AppCompatActivity {
           @Override
           public void onClick(View v) {
               Intent intent = new Intent(getApplicationContext(),UploadActivity.class);
+              intent.putExtra("classFrom",EditBeaconActivity.class.toString());
               startActivity(intent);
           }
       });
@@ -103,7 +110,7 @@ public class EditBeaconActivity extends AppCompatActivity {
 
     }
 
-        private void sendData(final String name){
+        private void sendData(final String name,final String imgurl){
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URLS.editBeaconByUserId(userId,beaconId), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -126,7 +133,7 @@ public class EditBeaconActivity extends AppCompatActivity {
                     HashMap<String,String> params = new HashMap<>();
                     params.put("name",name);
                     params.put("beaconId",beaconId);
-                    params.put("imageUrl","uploads"+"\\"+"0_1525550688_S80505-214841.jpg");
+                    params.put("imageUrl",imgurl);
                     return params;
                 }
             };

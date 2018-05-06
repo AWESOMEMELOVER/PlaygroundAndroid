@@ -75,9 +75,11 @@ public class  BeaconFragment extends Fragment {
             public void onItemClick(Beacon item) {
                 System.out.println(item.getName());
                 System.out.println(item.getId());
+                SharedPrefUser.getInstance(getContext()).saveNewBeaconId(item.getId());
                 Intent intent = new Intent(getActivity(), EditBeaconActivity.class);
                 intent.putExtra("beaconId",String.valueOf(item.getId()));
                 intent.putExtra("beaconName",item.getName());
+                intent.putExtra("imageUrl",item.getImgUrl());
                 startActivity(intent);
 
             }

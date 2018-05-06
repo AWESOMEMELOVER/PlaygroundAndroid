@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -119,6 +120,7 @@ public class QRCodeActivity extends AppCompatActivity {
                             qrCodeValue = qrcodes.valueAt(0).rawValue;
                             txtResult.setText(qrcodes.valueAt(0).displayValue);
                             Log.i("BEACON QR CODE : ",qrCodeValue);
+                            SharedPrefUser.getInstance(getApplicationContext()).saveNewBeaconId(qrCodeValue);
                         }
                     });
 

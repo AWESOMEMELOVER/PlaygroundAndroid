@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import com.example.micka.playgroundprojectv2.Models.Tracking;
 import com.example.micka.playgroundprojectv2.R;
+import com.example.micka.playgroundprojectv2.Utils.Config;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by micka on 4/23/2018.
@@ -32,6 +35,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.Tracki
        // Log.e("ERROR STRING TAG: ",tracking.getName().toString());
         holder.mName.setText(tracking.getUserBeaconName());
         holder.mPlaygroundName.setText(tracking.getPlaygroundName());
+        Config.displayImage(mContext,tracking.getImageUrl(),holder.circleImageView);
 
     }
 
@@ -54,11 +58,13 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.Tracki
     class TrackingViewHolder extends RecyclerView.ViewHolder{
         public  TextView mName;
         public TextView mPlaygroundName;
+        public CircleImageView circleImageView;
 
         public TrackingViewHolder(View itemView){
             super(itemView);
             this.mName = (TextView) itemView.findViewById(R.id.tv_tracking_beacon_name);
             this.mPlaygroundName = (TextView) itemView.findViewById(R.id.tv_playground_name_test);
+            this.circleImageView = (CircleImageView)itemView.findViewById(R.id.civ_tracking_avatar);
         }
     }
 }

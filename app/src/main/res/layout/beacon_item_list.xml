@@ -15,7 +15,7 @@
         android:id="@+id/civ_beacon_avatar"
         android:layout_width="136dp"
         android:layout_height="136dp"
-        android:src="@drawable/nickcage"/>
+        android:src="@drawable/ava"/>
 
     <TextView
         android:id="@+id/tv_beacon_name"

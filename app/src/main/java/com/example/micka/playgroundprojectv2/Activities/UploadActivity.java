@@ -71,6 +71,7 @@ public class UploadActivity extends AppCompatActivity {
     LinearLayout uploader_area;
     LinearLayout progress_area;
     public ProgressBar donut_progress;
+    Intent intent;
     private static final int REQUEST_WRITE_STORAGE = 112;
 
     @Override
@@ -86,6 +87,13 @@ public class UploadActivity extends AppCompatActivity {
         donut_progress = (ProgressBar) findViewById(R.id.donut_progress);
         imageview = (ImageView) findViewById(R.id.imageview);
 
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle.getString("classFrom").equals(AddBeaconActivity.class.toString())){
+            intent = new Intent(getApplicationContext(),AddBeaconActivity.class);
+        }else if(bundle.getString("classFrom").equals(EditBeaconActivity.class.toString())){
+            intent = new Intent(getApplicationContext(),EditBeaconActivity.class);
+        }
 
         Boolean hasPermission = (ContextCompat.checkSelfPermission(com.example.micka.playgroundprojectv2.Activities.UploadActivity.this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -190,7 +198,6 @@ public class UploadActivity extends AppCompatActivity {
                     String retSrc =  EntityUtils.toString(httpEntity);
                     JSONObject result = new JSONObject(retSrc);
                     Log.i("JSON RESPONCE : ",result.toString());
-                    Intent intent = new Intent(getApplicationContext(),EditBeaconActivity.class);
                     intent.putExtra("classFrom",UploadActivity.class.toString());
                     intent.putExtra("imageUrl",result.getString("file"));
                     startActivity(intent);

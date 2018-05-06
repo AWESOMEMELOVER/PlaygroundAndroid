@@ -28,11 +28,11 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     final String REGISTRY_URL = URLS.REGISTRY_URL;
-    EditText mUserName, mUserLastname, mUserBirthDay, mUserBirthMonth, mUserBirthYear;
+    EditText mUserName, mUserLastname, mUserBirthDay, mUserBirthMonth, mUserBirthYear,mTelephone;
     String username, userlastname, userDay, userMonth, userYear,userFullBirth;
     ImageView mRegistry;
     int gender = 1;
-    String telNum = "380984895779";
+    String telNum;
     GlobalUser globalUser;
     RequestQueue queue;
 
@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         mUserBirthMonth = (EditText) findViewById(R.id.et_birthday_month_holder);
         mUserBirthYear = (EditText) findViewById(R.id.et_birthday_year_holder);
         mRegistry = (ImageView) findViewById(R.id.btn_registration);
-
+        mTelephone = (EditText) findViewById(R.id.et_telephone_number);
 
         mRegistry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                 userYear = mUserBirthYear.getText().toString();
                 userMonth = mUserBirthMonth.getText().toString();
                 userDay = mUserBirthDay.getText().toString();
+                telNum = mTelephone.getText().toString();
 
                 userFullBirth = buildBirthDay();
                 sendData();
