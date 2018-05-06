@@ -18,7 +18,7 @@ public class SharedPrefUser {
     private final String sPref_userId = "sPref_userId";
     private final String sPref_trackingId= "sPref_trackingId";
     private final String sPref_beaconId= "sPref_beaconId";
-
+    private final String sPref_divice_token = "sPref_divice_token";
     private SharedPrefUser(){}
 
     public static SharedPrefUser getInstance(Context context){
@@ -52,5 +52,12 @@ public class SharedPrefUser {
     }
     public String getBeaconId(){
         return sharedPreferences.getString(sPref_beaconId,null);
+    }
+    public void saveNewDiviceToken(String diviceToken){
+        editor.putString(sPref_divice_token,diviceToken);
+        editor.commit();
+    }
+    public String getDiviceToken(){
+        return sharedPreferences.getString(sPref_divice_token,null);
     }
 }

@@ -1,8 +1,10 @@
 package com.example.micka.playgroundprojectv2.Activities;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,8 +25,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.micka.playgroundprojectv2.MyFirebaseInstanceIdService;
+import com.example.micka.playgroundprojectv2.MyFirebaseMessagingService;
 import com.example.micka.playgroundprojectv2.R;
 import com.example.micka.playgroundprojectv2.Utils.ExceptionHandler;
+import com.example.micka.playgroundprojectv2.Utils.SharedPrefUser;
 import com.example.micka.playgroundprojectv2.Utils.StringUtils;
 import com.example.micka.playgroundprojectv2.Utils.URLS;
 import com.google.gson.Gson;
@@ -46,18 +51,30 @@ public class LoginActivity extends AppCompatActivity {
     RequestQueue queue;
     TextView link_signup;
     private Context mContext;
+    private BroadcastReceiver broadcastReceiver;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Log.wtf("GENERATED DEVICE TOKEN: ", SharedPrefUser.getInstance(getApplicationContext()).getDiviceToken());
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         queue = Volley.newRequestQueue(this);
         mButtonLogin = (ImageView) findViewById(R.id.btn_login_button);
         mTelephoneLogin = (EditText) findViewById(R.id.et_phone_number);
         link_signup = (TextView)findViewById(R.id.link_signup);
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                token = SharedPrefUser.getInstance(LoginActivity.this).getDiviceToken();
+                Log.wtf("DEVICE TOKEN: ",token);
+            }
+        };
+
+        registerReceiver(broadcastReceiver,new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
 
         mContext = getApplicationContext();
 
