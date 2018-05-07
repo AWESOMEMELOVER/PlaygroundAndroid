@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     String username, userlastname, userDay, userMonth, userYear,userFullBirth;
     ImageView mRegistry;
     int gender = 1;
-    String telNum;
+    String telNum   ;
     GlobalUser globalUser;
     RequestQueue queue;
 
@@ -45,8 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
 
 
-        mUserName = (EditText) findViewById(R.id.et_user_name);
-        mUserLastname = (EditText) findViewById(R.id.et_user_lastname);
+       // mUserName = (EditText) findViewById(R.id.et_reg_user_name);
+       // mUserLastname = (EditText) findViewById(R.id.et_reg_user_lastname);
         mUserBirthDay = (EditText) findViewById(R.id.et_birthday_day_holder);
         mUserBirthMonth = (EditText) findViewById(R.id.et_birthday_month_holder);
         mUserBirthYear = (EditText) findViewById(R.id.et_birthday_year_holder);
@@ -56,8 +56,8 @@ public class RegisterActivity extends AppCompatActivity {
         mRegistry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username = mUserName.getText().toString();
-                userlastname = mUserLastname.getText().toString();
+               // username = mUserName.getText().toString();
+                //userlastname = mUserLastname.getText().toString();
                 userYear = mUserBirthYear.getText().toString();
                 userMonth = mUserBirthMonth.getText().toString();
                 userDay = mUserBirthDay.getText().toString();

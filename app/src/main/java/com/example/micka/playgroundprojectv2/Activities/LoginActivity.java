@@ -51,58 +51,49 @@ public class LoginActivity extends AppCompatActivity {
     RequestQueue queue;
     TextView link_signup;
     private Context mContext;
-    private BroadcastReceiver broadcastReceiver;
+
     String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Log.wtf("GENERATED DEVICE TOKEN: ", SharedPrefUser.getInstance(getApplicationContext()).getDiviceToken());
-        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-        queue = Volley.newRequestQueue(this);
-        mButtonLogin = (ImageView) findViewById(R.id.btn_login_button);
-        mTelephoneLogin = (EditText) findViewById(R.id.et_phone_number);
-        link_signup = (TextView)findViewById(R.id.link_signup);
 
-        /*TODO
-        * SWITCH BROADCAST RECIEVER TO MAINACTIVITY
-        * POST IT TO user/id/gcm
-        *
-        * */
+        if (SharedPrefUser.getInstance(getApplicationContext()).getUserId() != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        } else {
+
+            Log.wtf("GENERATED DEVICE TOKEN: ", SharedPrefUser.getInstance(getApplicationContext()).getDiviceToken());
+            final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+            actionBar.hide();
+            queue = Volley.newRequestQueue(this);
+            mButtonLogin = (ImageView) findViewById(R.id.btn_login_button);
+            mTelephoneLogin = (EditText) findViewById(R.id.et_phone_number);
+            link_signup = (TextView) findViewById(R.id.link_signup);
 
 
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                token = SharedPrefUser.getInstance(LoginActivity.this).getDiviceToken();
-            }
-        };
+            mContext = getApplicationContext();
 
-        registerReceiver(broadcastReceiver,new IntentFilter(MyFirebaseInstanceIdService.TOKEN_BROADCAST));
-
-        mContext = getApplicationContext();
-
-        link_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
-                overridePendingTransition( R.animator.slide_in_up, R.animator.slide_out_up );
-            }
-        });
-
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mTelephoneLogin.getText().toString()!=null){
-                    telephoneNumber = mTelephoneLogin.getText().toString();
-                    HashMap<String, String> data = new HashMap<>();
-                    data.put("phoneNumber",telephoneNumber);
-                    sendTelephoneNumber();
+            link_signup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                    overridePendingTransition(R.animator.slide_in_up, R.animator.slide_out_up);
                 }
-            }
-        });
+            });
+
+            mButtonLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mTelephoneLogin.getText().toString() != null) {
+                        telephoneNumber = mTelephoneLogin.getText().toString();
+                        HashMap<String, String> data = new HashMap<>();
+                        data.put("phoneNumber", telephoneNumber);
+                        sendTelephoneNumber();
+                    }
+                }
+            });
+        }
     }
 
 

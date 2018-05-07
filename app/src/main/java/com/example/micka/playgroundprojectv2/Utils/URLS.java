@@ -33,5 +33,8 @@ public class URLS {
     public static String addBeaconToTracking(String trackingId){
         return "http://unix.trosha.dev.lumination.com.ua/tracking/"+trackingId+"/to/beacon";
     }
+    public static String addGcmByUserId(String userid){
+        return "http://unix.trosha.dev.lumination.com.ua/user/"+userid+"/gcm";
+    }
 
 }
