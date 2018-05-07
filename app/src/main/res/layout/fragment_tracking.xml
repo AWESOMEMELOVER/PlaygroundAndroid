@@ -7,20 +7,24 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="120dp">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rc_tracking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
-    
+    </ScrollView>
    <ImageView
        android:id="@+id/btn_add_new_tracking"
        android:layout_width="217dp"
        android:layout_height="60dp"
        android:src="@drawable/add_track"
        android:layout_centerHorizontal="true"
-       android:layout_marginBottom="110dp"
+       android:layout_marginBottom="70dp"
        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -32,7 +32,7 @@ public class MyNotificationManager {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mCntx);
 
-        Notification myNotification = builder.setSmallIcon(R.mipmap.ic_launcher)
+        Notification myNotification = builder.setSmallIcon(R.drawable.ava)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(from)
