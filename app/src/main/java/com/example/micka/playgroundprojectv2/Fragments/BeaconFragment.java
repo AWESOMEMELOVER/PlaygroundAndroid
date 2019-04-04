@@ -64,26 +64,13 @@ public class  BeaconFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycleview_beacon_fragment);
-        beaconAdapter = new BeaconAdapter(getContext(), beaconArrayList);
-        GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(),2);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(beaconAdapter);
 
-        beaconAdapter.setOnItemClickListener(new BeaconOnItemClickListener() {
-            @Override
-            public void onItemClick(Beacon item) {
-                System.out.println(item.getName());
-                System.out.println(item.getId());
-                SharedPrefUser.getInstance(getContext()).saveNewBeaconId(item.getId());
-                Intent intent = new Intent(getActivity(), EditBeaconActivity.class);
-                intent.putExtra("beaconId",String.valueOf(item.getId()));
-                intent.putExtra("beaconName",item.getName());
-                intent.putExtra("imageUrl",item.getImgUrl());
-                startActivity(intent);
 
-            }
-        });
+
+        getBeaconsArrayList();
+
     }
 
     @Override
@@ -94,12 +81,12 @@ public class  BeaconFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        getBeaconsArrayList();
+
     }
 
     private void getBeaconsArrayList(){
-       // userId = ((GlobalUser) getActivity().getApplication()).getUserId();
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLS.getBeaconsByIdURL("1"), null, new Response.Listener<JSONObject>() {
+       userId = ((GlobalUser) getActivity().getApplication()).getUserId();
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLS.getBeaconsByIdURL(userId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -109,18 +96,34 @@ public class  BeaconFragment extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("data");
                     for(int i =0; i<jsonArray.length();i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        if(object.getString("userId").equals(userId)) {
                             Beacon beacon = new Beacon();
                             beacon.setId(object.getString("id"));
                             beacon.setName(object.getString("name"));
 
                             beacon.setImgUrl(object.getString("imageUrl"));
                             Log.e("BEACON TAG:", beacon.getId());
-
+                        Log.i("Beacon: ",beacon.toString());
                             beaconArrayList.add(beacon);
-                            beaconAdapter.notifyDataSetChanged();
+
                         }
-                    }
+                    GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(),2);
+                    beaconAdapter = new BeaconAdapter(getContext(), beaconArrayList);
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    recyclerView.setAdapter(beaconAdapter);
+                    beaconAdapter.setOnItemClickListener(new BeaconOnItemClickListener() {
+                        @Override
+                        public void onItemClick(Beacon item) {
+                            System.out.println(item.getName());
+                            System.out.println(item.getId());
+                            SharedPrefUser.getInstance(getContext()).saveNewBeaconId(item.getId());
+                            Intent intent = new Intent(getActivity(), EditBeaconActivity.class);
+                            intent.putExtra("beaconId",String.valueOf(item.getId()));
+                            intent.putExtra("beaconName",item.getName());
+                            intent.putExtra("imageUrl",item.getImgUrl());
+                            startActivity(intent);
+
+                        }
+                    });
                 }catch (JSONException e){
                     e.printStackTrace();
                 }

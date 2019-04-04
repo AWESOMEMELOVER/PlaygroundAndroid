@@ -74,7 +74,7 @@ public class AddBeaconActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 beaconName = mNewBeaconName.getText().toString();
-                saveNewBeacon();
+                saveNewBeacon(beaconName);
             }
         });
     }
@@ -85,7 +85,7 @@ public class AddBeaconActivity extends AppCompatActivity {
         Log.i("BEACON QR CODE : ",beaconId+" is beaconID");
     }
 
-    private void saveNewBeacon(){
+    private void saveNewBeacon(String beaconName2){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, SAVE_BEACON_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -103,7 +103,7 @@ public class AddBeaconActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("name",beaconName);
+                params.put("name",beaconName2);
                 params.put("beaconId",beaconId);
                 params.put("imageUrl",imgurl);
                 return params;

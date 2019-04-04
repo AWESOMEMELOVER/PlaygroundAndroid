@@ -19,6 +19,14 @@ public class Beacon {
     private String imgUrl;
     private String name;
 
+    @Override
+    public String toString() {
+        return "Beacon{" +
+                "id='" + id + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
     public String getImgUrl() {
         return imgUrl;

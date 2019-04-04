@@ -93,6 +93,7 @@ public class EditBeaconActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String newBeaconname = mBeaconName.getText().toString();
+                Log.wtf("newBEACON NAME: ", newBeaconname);
                 //File newAva = new File(imageUri.getPath());
                 sendData(newBeaconname,imageUrl);
             }
@@ -133,7 +134,7 @@ public class EditBeaconActivity extends AppCompatActivity {
                     HashMap<String,String> params = new HashMap<>();
                     params.put("name",name);
                     params.put("beaconId",beaconId);
-                    params.put("imageUrl",imgurl);
+
                     return params;
                 }
             };

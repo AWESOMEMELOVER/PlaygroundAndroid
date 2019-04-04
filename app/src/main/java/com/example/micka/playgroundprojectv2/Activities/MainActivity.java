@@ -45,8 +45,8 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       /* Intent intent = getIntent();
-        id = intent.getStringExtra("userId");*/
+        Intent intent = getIntent();
+        id = intent.getStringExtra("userId");
 
         addNewBeacon = (ImageView) findViewById(R.id.btn_add_new_beacon);
 
